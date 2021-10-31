@@ -7,9 +7,12 @@ const configureTheme = createTheme({
     primary: {
       main: "#DE559C",
     },
-    black:{
-      main:'#244145'
-    }
+    primaryLight: {
+      main: "#EBDEDC",
+    },
+    black: {
+      main: "#244145",
+    },
   },
 });
 
