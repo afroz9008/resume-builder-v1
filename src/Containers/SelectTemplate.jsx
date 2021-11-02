@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Rotate from "react-reveal/Rotate";
+import { Rotate, Bounce } from "react-reveal";
 import {
   Button,
   Container,
@@ -8,8 +8,10 @@ import {
   Typography,
 } from "@material-ui/core";
 import { templates } from "../utils/getTemplates";
+import { Route, Switch, useHistory } from "react-router-dom";
+import UserInformation from "./UserInformation";
 
-export default function SelectTemplate() {
+export default function SelectTemplate(props) {
   const classes = useStyles();
   const [animate, setAnimate] = useState(false);
 
@@ -31,7 +33,19 @@ export default function SelectTemplate() {
             <Typography className={classes.subtitle} variant="caption">
               We suggest including an email and phone number
             </Typography>
-            <Templates />
+
+            <Switch>
+              <Route
+                exect
+                path={`${props.match.url}/:templateId`}
+                component={(rest) => <UserInformation {...rest} />}
+              />
+              <Route
+                exect
+                path={`${props.match.url}`}
+                component={(rest) => <Templates {...rest} animate={animate} />}
+              />
+            </Switch>
           </Container>
         </Grid>
         <Grid
@@ -47,40 +61,49 @@ export default function SelectTemplate() {
   );
 }
 
-const Templates = (props) => {
+const Templates = ({ props }) => {
   const classes = useStyles();
+  const history = useHistory();
 
   return (
     <Container className={classes.templateComponentRoot}>
-      <Grid container>
-        {templates.map((template) => {
-          return (
-            <Grid
-              className={classes.templateItemContainer}
-              key={template.templateId}
-              item
-              xs={12}
-              sm={12}
-              md={6}
-              lg={4}
-            >
-              <div className={classes.bottomBorderContainer} />
-              <div className={classes.templateItem}>
-                <img
-                  className={classes.templateImage}
-                  src={template.image}
-                  alt={template.templateId}
-                />
-                <div className={classes.overlay}>
-                  <Button variant="contained" color="secondary">
-                    Use this template
-                  </Button>
+      <Bounce left opposite cascade collapse>
+        <Grid container>
+          {templates.map((template) => {
+            return (
+              <Grid
+                className={classes.templateItemContainer}
+                key={template.templateId}
+                item
+                xs={12}
+                sm={12}
+                md={6}
+                lg={4}
+              >
+                <div className={classes.bottomBorderContainer} />
+                <div className={classes.templateItem}>
+                  <img
+                    className={classes.templateImage}
+                    src={template.image}
+                    alt={template.templateId}
+                  />
+                  <div className={classes.overlay}>
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      onClick={() =>
+                        history.push(`/build/${template.templateId}`)
+                      }
+                    >
+                      Use this template
+                    </Button>
+                  </div>
                 </div>
-              </div>
-            </Grid>
-          );
-        })}
-      </Grid>
+              </Grid>
+            );
+          })}
+        </Grid>
+      </Bounce>
     </Container>
   );
 };
@@ -139,7 +162,7 @@ const useStyles = makeStyles((theme) => ({
     height: 341,
     width: 278,
     cursor: "pointer",
-    overflow:'hidden',
+    overflow: "hidden",
     zIndex: 1,
     "&:hover": {
       "& $templateImage": {
@@ -169,7 +192,7 @@ const useStyles = makeStyles((theme) => ({
     height: 41,
     position: "absolute",
     background: theme.palette.primary.main,
-    boxShadow: "18px 5px 18px #616161",
+    boxShadow: "7px 9px 13px #616161",
     transform: "skewX(-46deg)",
   },
   overlay: {
