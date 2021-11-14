@@ -1,6 +1,7 @@
 import "./App.css";
 import Routes from "./Routes";
 import { createTheme, ThemeProvider } from "@material-ui/core/styles";
+import { createContext, useState } from "react";
 
 const configureTheme = createTheme({
   palette: {
@@ -16,10 +17,16 @@ const configureTheme = createTheme({
   },
 });
 
+export const UserDetailsContext = createContext();
+
 function App() {
+  const [state, setState] = useState({ percentage: 0 });
+
   return (
     <ThemeProvider theme={configureTheme}>
-      <Routes />
+      <UserDetailsContext.Provider value={[state, setState]}>
+        <Routes />
+      </UserDetailsContext.Provider>
     </ThemeProvider>
   );
 }

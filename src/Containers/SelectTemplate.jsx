@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Rotate, Bounce } from "react-reveal";
 import {
   Button,
@@ -10,10 +10,15 @@ import {
 import { templates } from "../utils/getTemplates";
 import { Route, Switch, useHistory } from "react-router-dom";
 import UserInformation from "./UserInformation";
+import { CircularProgressbar } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
+import clsx from "clsx";
+import { UserDetailsContext } from "../App";
 
 export default function SelectTemplate(props) {
   const classes = useStyles();
   const [animate, setAnimate] = useState(false);
+  const [state, setState] = useContext(UserDetailsContext);
 
   useEffect(() => {
     setTimeout(() => {
@@ -55,7 +60,44 @@ export default function SelectTemplate(props) {
           md={4}
           lg={3}
           xl={2}
-        ></Grid>
+        >
+          <Typography variant="h5" className={classes.progressTitle}>
+            My Progress
+          </Typography>
+          <div className={classes.donutProgressBar}>
+            <CircularProgressbar
+              styles={{
+                path: {
+                  stroke: `#ffffff`,
+                },
+                trail: {
+                  stroke: "#E9A04E",
+                  strokeLinecap: "butt",
+                  transform: "rotate(0.25turn)",
+                  transformOrigin: "center center",
+                },
+                text: {
+                  fill: "white",
+                },
+                background: {
+                  fill: "#3e98c7",
+                },
+              }}
+              strokeWidth={12}
+              value={state.percentage}
+              text={`${state.percentage}%`}
+            />
+          </div>
+          <Typography
+            variant="h5"
+            className={clsx(classes.progressTitle, classes.progressTitle1)}
+          >
+            Experince
+          </Typography>
+          <Typography variant="caption" className={classes.progressTitle}>
+            Complate And Get Result
+          </Typography>
+        </Grid>
       </Grid>
     </Rotate>
   );
@@ -64,6 +106,7 @@ export default function SelectTemplate(props) {
 const Templates = ({ props }) => {
   const classes = useStyles();
   const history = useHistory();
+  const [state, setState] = useContext(UserDetailsContext);
 
   return (
     <Container className={classes.templateComponentRoot}>
@@ -91,9 +134,10 @@ const Templates = ({ props }) => {
                     <Button
                       variant="contained"
                       color="secondary"
-                      onClick={() =>
-                        history.push(`/build/${template.templateId}`)
-                      }
+                      onClick={() => {
+                        // setState((p) => ({ ...p, percentage: 5 }));
+                        history.push(`/build/${template.templateId}`);
+                      }}
                     >
                       Use this template
                     </Button>
@@ -112,8 +156,25 @@ const useStyles = makeStyles((theme) => ({
   root: {
     height: "100vh",
   },
+  donutProgressBar: {
+    padding: theme.spacing(3),
+    width: "70%",
+  },
+  progressTitle: {
+    marginBottom: 20,
+    fontWeight: "bold",
+    color: theme.palette.common.white,
+  },
+  progressTitle1: {
+    marginBottom: 5,
+  },
   progressContainer: {
     backgroundColor: theme.palette.primary.main,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "column",
+    // padding: 20,
   },
   tepmlateContainer: {
     padding: theme.spacing(3),

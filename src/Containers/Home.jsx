@@ -19,6 +19,7 @@ export default function Home(props) {
   const classes = useStyles();
   const [animate, setAnimate] = useState(false);
   const history = useHistory();
+  
   useEffect(() => {
     setTimeout(() => {
       setAnimate(true);

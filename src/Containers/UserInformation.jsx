@@ -1,8 +1,18 @@
-import { Box, Button, Container, Typography ,Slide} from "@material-ui/core";
+import {
+  Box,
+  Button,
+  Container,
+  Typography,
+  Slide,
+  TextField,
+  makeStyles,
+} from "@material-ui/core";
 import React, { useState } from "react";
-// import {  } from "react-reveal";
+import clsx from "clsx";
 import { useParams } from "react-router-dom";
 import { useTemplateData } from "../utils/hooks";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/material.css";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -30,17 +40,125 @@ export default function UserInformation() {
   const params = useParams();
   const templateData = useTemplateData(params.templateId);
   const [activeTab, setActiveTab] = useState(0);
+  const classes = useStyles();
 
   console.log(params, templateData);
 
   return (
-    <Container>
+    <Container className={classes.root}>
       {templateData?.map((step, i) => (
         <TabPanel key={i} value={activeTab} index={i}>
-          {step[step.key].title}
+          <Typography variant="h5" className={classes.titlePrimary}>
+            {step[step.key].title}
+          </Typography>
+          <Container>
+            <dvi className={classes.container}>
+              {step[step.key].isMulti
+                ? step[step.key].data.map((p) => {
+                    return p.map((c) => {
+                      switch (c.type) {
+                        case "string": {
+                          return (
+                            <TextField
+                              className={classes.stringTextBox}
+                              margin={"dense"}
+                              size="small"
+                              id="outlined-basic"
+                              label={c.lable}
+                              variant="outlined"
+                            />
+                          );
+                        }
+                        case "mobile": {
+                          return (
+                            <PhoneInput
+                              containerClass={clsx(
+                                classes.stringTextBox,
+                                classes.mobileTextBox
+                              )}
+                              country="in"
+                              enableAreaCodes={true}
+                              enableAreaCodes={["us", "ca"]}
+                              enableAreaCodeStretch
+                            />
+                          );
+                        }
+                        case "richText": {
+                          return (
+                            <TextField
+                              className={classes.stringTextBox}
+                              margin={"dense"}
+                              size="small"
+                              type="text"
+                              minRows={5}
+                              maxRows={5}
+                              multiline
+                              id="outlined-basic"
+                              label={c.lable}
+                              variant="outlined"
+                            />
+                            // <TextField
+                            //   className={classes.stringTextBox}
+                            //   margin={"dense"}
+                            //   size="small"
+                            //   id="outlined-basic"
+                            //   label={c.lable}
+                            //   variant="outlined"
+                            // />
+                          );
+                        }
+                        default:
+                          return "";
+                      }
+                    });
+                  })
+                : step[step.key].data.map((p) => {
+                    switch (p.type) {
+                      case "string": {
+                        return (
+                          <TextField
+                            className={classes.stringTextBox}
+                            margin={"dense"}
+                            size="small"
+                            id="outlined-basic"
+                            label={p.lable}
+                            variant="outlined"
+                          />
+                        );
+                      }
+                      case "richText": {
+                        return (
+                          <TextField
+                            className={classes.stringTextBox}
+                            margin={"dense"}
+                            size="small"
+                            type="text"
+                            minRows={5}
+                            maxRows={5}
+                            multiline
+                            id="outlined-basic"
+                            label={p.lable}
+                            variant="outlined"
+                          />
+                          // <TextField
+                          //   className={classes.stringTextBox}
+                          //   margin={"dense"}
+                          //   size="small"
+                          //   id="outlined-basic"
+                          //   label={c.lable}
+                          //   variant="outlined"
+                          // />
+                        );
+                      }
+                      default:
+                        return "";
+                    }
+                  })}
+            </dvi>
+          </Container>
         </TabPanel>
       ))}
-      <Container style={{ display: "flex" }}>
+      <Container className={classes.navButtonContainer}>
         {!!activeTab && (
           <Button
             onClick={() => setActiveTab((p) => p - 1)}
@@ -65,3 +183,48 @@ export default function UserInformation() {
     </Container>
   );
 }
+
+const useStyles = makeStyles((theme) => ({
+  stringTextBox: {
+    margin: 5,
+    width: "47%",
+    flexGrow: 1,
+  },
+  mobileTextBox: {
+    background: "transparent",
+    "& > div.special-label": {
+      color: theme.palette.primary.main,
+      background: theme.palette.primaryLight.main,
+    },
+    "& > input": {
+      background: `${theme.palette.primaryLight.main} !important`,
+      height: "40px",
+      width: "100% !important",
+      "&:focus": {
+        borderWidth: 2,
+        borderColor: `${theme.palette.primary.main} !important`,
+        boxShadow: `none !important`,
+      },
+    },
+  },
+
+  container: {
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    marginTop: theme.spacing(2),
+  },
+  root: {
+    height: "100%",
+    position: "relative",
+  },
+  navButtonContainer: {
+    display: "flex",
+    width: "100%",
+    position: "absolute",
+    bottom: 10,
+  },
+  titlePrimary: {
+    color: theme.palette.primary.main,
+  },
+}));

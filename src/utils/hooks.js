@@ -9,18 +9,29 @@ export const useTemplateData = (templateId) => {
       data = {
         personalInfo: {
           title: "Personal Info",
-          isMuti: true,
-          data: [{ firstName: "", lastName: "", image: null, position: "" }],
+          isMulti: false,
+          data: [
+            { lable: "First Name", value: "", type: "string" },
+            { lable: "Last Name", value: "", type: "string" },
+            { image: null, type: "file" },
+            { lable: "Position", value: "", type: "string" },
+          ],
         },
         about: {
           title: "About Me",
           isMulti: false,
-          data: "",
+          data: [{ lable: "About", value: "", type: "richText" }],
         },
         refrances: {
           title: "Reference",
           isMulti: true,
-          data: [{ name: "", mobile: "", adress: "" }],
+          data: [
+            [
+              { lable: "Name", value: "", type: "string" },
+              { lable: "Mobile", value: "", type: "mobile" },
+              { lable: "Adress", value: "", type: "richText" },
+            ],
+          ],
         },
       };
     }
