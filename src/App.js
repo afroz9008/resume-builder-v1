@@ -21,7 +21,7 @@ export const UserDetailsContext = createContext();
 
 function App() {
   const [state, setState] = useState({ percentage: 0 });
-
+  console.log('Log....');
   return (
     <ThemeProvider theme={configureTheme}>
       <UserDetailsContext.Provider value={[state, setState]}>
