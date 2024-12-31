@@ -18,7 +18,7 @@ import { UserDetailsContext } from "../App";
 export default function SelectTemplate(props) {
   const classes = useStyles();
   const [animate, setAnimate] = useState(false);
-  const [state, setState] = useContext(UserDetailsContext);
+  const [state] = useContext(UserDetailsContext);
 
   useEffect(() => {
     setTimeout(() => {
@@ -107,7 +107,7 @@ const Templates = ({ props }) => {
   const classes = useStyles();
   const history = useHistory();
   const [state, setState] = useContext(UserDetailsContext);
-
+  console.log(state);
   return (
     <Container className={classes.templateComponentRoot}>
       <Bounce left opposite cascade collapse>
