@@ -1,6 +1,7 @@
 {
   "name": "resume-builder-v1",
   "version": "0.1.0",
+  "homepage": "https://afroz9008.github.io/resume-builder-v1",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.12.3",
