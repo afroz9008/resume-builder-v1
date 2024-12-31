@@ -48,6 +48,14 @@ jobs:
         with:
           name: build-artifacts
 
+      - name: Push build folder to GitHub
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add build
+          git commit -m "Add build folder"
+          git push origin master
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
