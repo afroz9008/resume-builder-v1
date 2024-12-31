@@ -135,7 +135,7 @@ const Templates = ({ props }) => {
                       variant="contained"
                       color="secondary"
                       onClick={() => {
-                        // setState((p) => ({ ...p, percentage: 5 }));
+                        setState((p) => ({ ...p, percentage: 5 }));
                         history.push(`/build/${template.templateId}`);
                       }}
                     >
