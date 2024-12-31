@@ -1,4 +1,4 @@
-name: React App Deployment # name of the workflo
+name: React App Deployment
 
 on:
   push:
@@ -65,6 +65,7 @@ jobs:
           else
             echo "Build folder does not exist!"
             exit 1
+          fi
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
