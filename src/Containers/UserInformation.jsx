@@ -77,7 +77,6 @@ export default function UserInformation() {
                                 classes.mobileTextBox
                               )}
                               country="in"
-                              enableAreaCodes={true}
                               enableAreaCodes={["us", "ca"]}
                               enableAreaCodeStretch
                             />
