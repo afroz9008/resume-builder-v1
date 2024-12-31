@@ -48,6 +48,12 @@ jobs:
         with:
           name: build-artifacts
 
+      - name: Debug List files
+        run: ls -la
+
+      - name: Pull latest changes
+        run: git pull origin master --rebase
+
       - name: Push build folder to GitHub
         run: |
           git config user.name "github-actions[bot]"
